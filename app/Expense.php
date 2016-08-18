@@ -1,0 +1,25 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Expense extends Model
+{
+    //
+  public function user()
+  {
+      return $this->belongsTo('App\User', 'lender_id');
+  }
+
+  public function fractions()
+  {
+    return $this->hasMany('App\ExpenseFraction');
+  }
+
+  public function creator()
+  {
+    return $this->belongsTo('App\User', 'creator_id');
+  }
+
+}
