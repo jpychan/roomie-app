@@ -18,3 +18,7 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+
+Route::get('/groups', 'GroupController@index');
+Route::post('/group', 'GroupController@store');
+Route::delete('/group/{group}', 'GroupController@destroy');
