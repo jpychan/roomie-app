@@ -73,23 +73,8 @@ class AuthController extends Controller
         ]);
     }
 
-    protected function edit(array $data)
-    {
+    // protected function edit(array $data)
+    // {
 
-    }
-
-    /**
-     * Display a list of all of the user's groups.
-     *
-     * @param  Request  $request
-     * @return Response
-     */
-    public function index(Request $request)
-    {
-        $groups = $request->user()->groups()->get();
-
-        return view('groups.index', [
-            'groups' => $groups,
-        ]);
-    }
+    // }
 }

@@ -44,24 +44,33 @@ class GroupController extends Controller
           'name' => 'required|max:255',
       ]);
 
-      $request->user()->groups()->create([
+      $group = $request->user()->groups()->create([
           'name' => $request->name,
+          'user_id' => $request->user->id,
       ]);
 
-      return redirect('/groups');
+      return redirect('/groups.index');
   }
 
-  public function edit(Request $request)
+  /**
+   * Edit the given group.
+   *
+   * @param  Request  $request
+   * @param  Group  $group
+   * @return Response
+   */
+
+  public function edit(Request $request, Group $group)
   {
       $this->validate($request, [
           'name' => 'required|max:255',
       ]);
 
-      $request->user()->groups()->create([
-          'name' => $request->name,
+      $group->edit([
+        'name' => $request->name,
       ]);
 
-      return redirect('/groups');
+      return redirect('/groups.index');
   }
 
   /**
@@ -76,7 +85,7 @@ class GroupController extends Controller
     $this->authorize('destroy', $group);
     $group->delete();
 
-    return redirect('/groups');
+    return redirect('/groups.index');
   }
 
 }

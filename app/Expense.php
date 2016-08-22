@@ -22,4 +22,13 @@ class Expense extends Model
     return $this->belongsTo('App\User', 'creator_id');
   }
 
+  public function lender()
+  {
+    return $this->belongsTo('App\User', 'lender_id');
+  }
+
+  protected $fillable = [
+    'name', 'creator_id', 'lender_id'
+  ];
+
 }

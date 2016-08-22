@@ -16,8 +16,7 @@ class ExpenseFraction extends Model
       return $this->belongsTo('App\User', 'borrower_id');
     }
 
-    public function lender()
-    {
-      return $this->belongsTo('App\User', 'lender_id');
-    }
+  protected $fillable = [
+    'expense_id', 'borrower_id', 'amount_owed_cents'
+  ];
 }

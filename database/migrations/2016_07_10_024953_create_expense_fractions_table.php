@@ -16,8 +16,6 @@ class CreateExpenseFractionsTable extends Migration
             $table->increments('id');
             $table->integer('expense_id')->unsigned();
             $table->foreign('expense_id')->references('id')->on('expenses');
-            $table->integer('lender_id')->unsigned();
-            $table->foreign('lender_id')->references('id')->on('users');
             $table->integer('borrower_id')->unsigned();
             $table->foreign('borrower_id')->references('id')->on('users');
             $table->integer('amount_owed_cents');
