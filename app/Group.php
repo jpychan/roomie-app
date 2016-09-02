@@ -6,15 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
-
   public function users()
     {
-      return $this->hasManyThrough('App\User', 'App\Membership');
+      return $this->belongsToMany('App\User', 'group_user');
     }
-
-  public function memberships()
-    {
-      return $this->hasMany('App\Membership');
-    }
-
 }

@@ -32,10 +32,10 @@ class DatabaseSeeder extends Seeder
 
     // App\Expense::create(['name' => 'Silver spoons', 'creator_id' => 1, 'lender_id' => 1]);
 
-    App\ExpenseFraction::create(['expense_id' => 3, 'borrower_id' => 2, 'amount_owed_cents' => 1000]);
+    App\ExpenseFraction::create(['expense_id' => 1, 'borrower_id' => 2, 'amount_owed_cents' => 1000]);
 
-    App\ExpenseFraction::create(['expense_id' => 3, 'borrower_id' => 3, 'amount_owed_cents' => 1000]);
+    App\ExpenseFraction::create(['expense_id' => 1, 'borrower_id' => 3, 'amount_owed_cents' => 1000]);
 
-    App\ExpenseFraction::create(['expense_id' => 3, 'borrower_id' => 4, 'amount_owed_cents' => 1000]);
+    App\ExpenseFraction::create(['expense_id' => 1, 'borrower_id' => 4, 'amount_owed_cents' => 1000]);
   }
 }

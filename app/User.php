@@ -14,12 +14,7 @@ class User extends Authenticatable
 
     public function groups()
     {
-        return $this->hasManyThrough('App\Group', 'App\Membership');
-    }
-
-    public function memberships()
-    {
-        return $this->hasMany('App\Membership');
+      return $this->belongsToMany('App\Group', 'group_user');
     }
 
     public function debts()
