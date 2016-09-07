@@ -20,5 +20,6 @@ Route::auth();
 Route::get('/home', 'HomeController@index');
 
 Route::get('/groups', 'GroupController@index');
+Route::get('/group/{group>', 'GroupController@show');
 Route::post('/group', 'GroupController@store');
 Route::delete('/group/{group}', 'GroupController@destroy');

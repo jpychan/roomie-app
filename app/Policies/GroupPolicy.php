@@ -26,4 +26,9 @@ class GroupPolicy
     {
         return $user->id === $group->user_id;
     }
+
+    public function show(User $user, Group $group)
+    {
+        return $group->users->contains($user);
+    }
 }

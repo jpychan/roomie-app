@@ -15,7 +15,9 @@ class CreateExpenseFractionsTable extends Migration
         Schema::create('expense_fractions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('expense_id')->unsigned();
-            $table->foreign('expense_id')->references('id')->on('expenses');
+            $table->foreign('expense_id')
+                  ->references('id')->on('expenses')
+                  ->onDelete('cascade');
             $table->integer('borrower_id')->unsigned();
             $table->foreign('borrower_id')->references('id')->on('users');
             $table->integer('amount_owed_cents');
