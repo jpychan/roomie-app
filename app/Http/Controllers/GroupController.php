@@ -73,16 +73,15 @@ class GroupController extends Controller
       return redirect('/groups.index');
   }
 
-  public function show(Request $request)
+  public function show(Request $request, Group $group)
   {
-    // $this->authorize('show', $group);
+    $this->authorize('show', $group);
 
-    return redirect('/groups.index');
-
-    // return view('groups.show', [
-    //   'group' => $group),
-    // ]);
+    return view('groups.show', [
+      'group' => $group,
+    ]);
   }
+
 
   /**
    * Destroy the given group.
