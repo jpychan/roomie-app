@@ -22,4 +22,5 @@ Route::get('/home', 'HomeController@index');
 Route::get('/groups', 'GroupController@index');
 Route::get('/group/{group}', 'GroupController@show');
 Route::post('/group', 'GroupController@store');
+Route::post('/group/{group}', 'GroupController@edit');
 Route::delete('/group/{group}', 'GroupController@destroy');

@@ -66,11 +66,11 @@ class GroupController extends Controller
           'name' => 'required|max:255',
       ]);
 
-      $group->edit([
+      $group->update([
         'name' => $request->name,
       ]);
 
-      return redirect('/groups.index');
+      return redirect()->action('GroupController@index');
   }
 
   public function show(Request $request, Group $group)
