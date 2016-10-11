@@ -18,6 +18,9 @@ class CreateExpensesTable extends Migration
             $table->foreign('creator_id')->references('id')->on('users');
             $table->integer('lender_id')->unsigned();
             $table->foreign('lender_id')->references('id')->on('users');
+            $table->integer('group_id')->unsigned();
+            $table->foreign('group_id')->references('id')->on('groups');
+            $table->integer('total_cents');
             $table->string('name');
             $table->timestamps();
         });

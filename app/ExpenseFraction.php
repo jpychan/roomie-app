@@ -8,7 +8,7 @@ class ExpenseFraction extends Model
 {
     public function expense()
     {
-      return $this->belongsTo('App\Expense');
+    return $this->belongsTo('App\Expense');
     }
 
     public function borrower()

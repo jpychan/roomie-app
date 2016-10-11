@@ -8,16 +8,14 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\GroupRepository;
 
-
 class GroupController extends Controller
 {
 
   public function __construct(GroupRepository $groups)
-    {
-        $this->middleware('auth');
-
-        $this->groups = $groups;
-    }
+  {
+    $this->middleware('auth');
+    $this->groups = $groups;
+  }
 
   /**
    * Display a list of all of the user's groups.
@@ -45,7 +43,7 @@ class GroupController extends Controller
       ]);
 
       $group = $request->user()->groups()->create([
-          'name' => $request->name,
+          'name'    => $request->name,
           'user_id' => $request->user->id,
       ]);
 
@@ -59,7 +57,6 @@ class GroupController extends Controller
    * @param  Group  $group
    * @return Response
    */
-
   public function edit(Request $request, Group $group)
   {
       $this->validate($request, [
@@ -70,18 +67,33 @@ class GroupController extends Controller
         'name' => $request->name,
       ]);
 
-      return redirect()->action('GroupController@index');
+      return redirect('/groups.index');
   }
 
   public function show(Request $request, Group $group)
   {
     $this->authorize('show', $group);
 
+    $group_expenses = $group->expenses->sortByDesc('created_at')->take(5);
+
+    $debts = $request->user()->debts->filter(function($debt) use ($request)
+    {
+      return $debt->borrower_id != $request->user()->id;
+    });
+
+    $loans = $request->user()->loans->filter(function($loan) use ($request)
+    {
+      return $loan->borrower_id != $request->user()->id;
+    });
+
     return view('groups.show', [
-      'group' => $group,
+      'group'           => $group,
+      'users'           => $group->users,
+      'group_expenses'  => $group_expenses,
+      'debts'           => $debts,
+      'loans'           => $loans,
     ]);
   }
-
 
   /**
    * Destroy the given group.
