@@ -13,7 +13,7 @@ class CreateExpenseFractionsTable extends Migration
     public function up()
     {
         Schema::create('expense_fractions', function (Blueprint $table) {
-            $table->increments('id');
+            $table->primary(['expense_id', 'borrower_id']);
             $table->integer('expense_id')->unsigned();
             $table->foreign('expense_id')
                   ->references('id')->on('expenses')

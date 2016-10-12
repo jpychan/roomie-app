@@ -72,6 +72,7 @@ class GroupController extends Controller
 
   public function show(Request $request, Group $group)
   {
+
     $this->authorize('show', $group);
 
     $group_expenses = $group->expenses->sortByDesc('created_at')->take(5);
@@ -85,6 +86,8 @@ class GroupController extends Controller
     {
       return $loan->borrower_id != $request->user()->id;
     });
+
+    $loans = $loans->load('fractions');
 
     return view('groups.show', [
       'group'           => $group,

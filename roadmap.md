@@ -6,7 +6,7 @@ Functions:
 
 To Do
 Group Detail Page:
-Display loans
+Display loans by user, not expense
 Add Users / Send Invite - search by email
 Improve the edit group name function
 Pay your group function

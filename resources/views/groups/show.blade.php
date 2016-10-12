@@ -3,8 +3,49 @@
 @section('content')
 <div class="container">
 
-  <h1>{{$group->name}}</h1>
-  <p>Edit</p>
+  <div class="col-md-8" id="groupName">
+    <h1>{{$group->name}}</h1>
+    <button
+      id="manageGroupBtn"
+      class="btn btn-primary btn-xs"
+      data-toggle="modal"
+      data-target="#groupEditModal">
+      Manage
+    </button>
+  </div>
+
+  <div class="modal fade" id="groupEditModal"
+     tabindex="-1" role="dialog"
+     aria-labelledby="groupEditModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close"
+            data-dismiss="modal"
+            aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title"
+          id="groupEditModalLabel">Edit {{ $group->name }}</h4>
+        </div>
+        <div class="modal-body">
+          @foreach ($users as $user)
+            <div class="row">
+              <p>
+                {{ $user->first_name }} {{ $user->last_name}}
+                <button id="groupMemberRemove" class="btn btn-danger"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></button>
+              </p>
+            </div>
+          @endforeach
+        </div>
+        <div class="modal-footer">
+          <button type="button"
+             class="btn btn-default"
+             data-dismiss="modal">Close</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <form id='groupNameEdit' class="form-horizontal" role="form" method="POST" action="{{ url('group/'.$group->id) }}">
     {{ csrf_field() }}
@@ -29,31 +70,29 @@
       </div>
     </div>
   </form>
-  <div>
+  <div class="col-md-4">
     <h2>Members</h2>
     <ul>
       @foreach ($users as $user)
         <li>
           {{ $user->first_name }} {{ $user->last_name}}
-          <button>Remove</button>
         </li>
       @endforeach
     </ul>
-
-    <button>Add a member</button>
   </div>
+
+
   <div>
-    <h2>Expenses</h2>
+    <h2>Group Expenses</h2>
     <ul>
       @foreach ($group_expenses as $expense)
         <li>
           {{ $expense->name }} $ {{number_format($expense->total_cents / 100, 2, '.', '')}}
-          <button>Remove</button>
         </li>
       @endforeach
     </ul>
 
-    <button>Add an expense</button>
+    <a class="btn btn-primary" href="{{ route('newExpense', ['id' => $group->id]) }}">Add an expense</a>
   </div>
 
   <div>
@@ -71,15 +110,18 @@
 
     <div>
     <h2>Loans</h2>
-    <ul>
+    <div>
       @foreach ($loans as $loan)
-        <li>
-          {{ $loan->expense->name }} owe ${{number_format($loan->amount_owed_cents / 100, 2, '.', '')}} to {{ $loan->expense->borrower->first_name }} {{ $loan->expense->borrower->last_name }}
-        </li>
+        <h3>
+          {{ $loan->name }}: ${{number_format($loan->total_cents / 100, 2, '.', '')}}
+        </h3>
+        <ul>
+          @foreach ($loan->fractions as $fraction)
+            <li>{{ $users->find($fraction->borrower_id)->first_name }}: ${{ number_format($fraction->amount_owed_cents / 100, 2, '.', '') }}</li>
+          @endforeach
+        </ul>
       @endforeach
-    </ul>
-
-    <button>Pay Debts</button>
+    </div>
   </div>
 </div>
 @endsection

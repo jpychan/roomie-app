@@ -56,7 +56,7 @@ class ExpenseController extends Controller
       $this->createExpenseFraction($expense->id, $user->id, $fraction, $user_id);
     }
 
-    return view('home');
+    return redirect()->route('group', ['id' => $group->id]);
   }
 
   public function new(Group $group) {
