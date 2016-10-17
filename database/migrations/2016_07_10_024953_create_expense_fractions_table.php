@@ -21,6 +21,7 @@ class CreateExpenseFractionsTable extends Migration
             $table->integer('borrower_id')->unsigned();
             $table->foreign('borrower_id')->references('id')->on('users');
             $table->integer('amount_owed_cents');
+            $table->boolean('paid');
             $table->timestamps();
         });
     }

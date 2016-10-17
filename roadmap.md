@@ -5,8 +5,7 @@ Functions:
 3. Users will be notified when they receive a payment or have a new IOU.
 
 To Do
-Group Detail Page:
+Group Detail Page 
 Display loans by user, not expense
-Add Users / Send Invite - search by email
 Improve the edit group name function
 Pay your group function

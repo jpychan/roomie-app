@@ -27,8 +27,15 @@ class GroupPolicy
         return $user->id === $group->user_id;
     }
 
+    public function manageMembers(User $user, Group $group)
+    {
+        return $user->id === $group->user_id;
+    }
+
     public function show(User $user, Group $group)
     {
         return $group->users->contains($user);
     }
+
+
 }

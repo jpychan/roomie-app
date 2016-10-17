@@ -28,14 +28,41 @@
           id="groupEditModalLabel">Edit {{ $group->name }}</h4>
         </div>
         <div class="modal-body">
-          @foreach ($users as $user)
-            <div class="row">
-              <p>
-                {{ $user->first_name }} {{ $user->last_name}}
-                <button id="groupMemberRemove" class="btn btn-danger"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></button>
-              </p>
-            </div>
-          @endforeach
+          <div>
+            <input id='groupId' type='hidden' value='{{ $group->id }}'>
+            <meta name="_token" content="{{ csrf_token() }}" />
+            @foreach ($users as $user)
+              <div id="user{{ $user->id }}" class="row">
+                <div class="col-md-6">
+                  <p>
+                    {{ $user->first_name }} {{ $user->last_name}}
+                  </p>
+                </div>
+
+                @can('manageMembers', $group)
+                  <div class="col-md-6">
+                      <button class="btn btn-danger groupMemberRemove" value='{{ $user->id }}'>
+                        <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+                      </button>
+                  </div>
+                @endcan
+              </div>
+              @endforeach
+              @can('manageMembers', $group)
+                <div class="row">
+                  <div class="col-md-12">
+                    <form id='groupMemberAdd' class="form-inline" role="form" method="POST" action="{{ url('group/' . $group->id . '/addMember') }}">
+                      <div class="form-group">
+                        {{ csrf_field() }}
+                        <label for="userEmailInput">Add user to group</label>
+                        <input type="email" class="form-control" id="userEmailInput" name="email" placeholder="User Email">
+                      </div>
+                      <button type="submit" class="btn btn-primary">Add Member</button>
+                    </form>
+                  </div>
+                </div>
+              @endcan
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button"
@@ -80,7 +107,6 @@
       @endforeach
     </ul>
   </div>
-
 
   <div>
     <h2>Group Expenses</h2>

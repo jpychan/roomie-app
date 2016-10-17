@@ -53,7 +53,7 @@ class ExpenseController extends Controller
     $fraction = (int)($request->total_cents) / count($users);
 
     foreach ($users as $user) {
-      $this->createExpenseFraction($expense->id, $user->id, $fraction, $user_id);
+      $this->createExpenseFraction($expense->id, $user->id, $fraction, $user_id, false);
     }
 
     return redirect()->route('group', ['id' => $group->id]);
@@ -65,13 +65,14 @@ class ExpenseController extends Controller
       ]);
   }
 
-  private function createExpenseFraction($expense_id, $user_id, $fraction) {
+  private function createExpenseFraction($expense_id, $user_id, $fraction, $paid) {
     $expenseFraction = new expenseFraction;
 
     $expenseFraction->create([
         'expense_id'        => $expense_id,
         'borrower_id'       => $user_id,
         'amount_owed_cents' => $fraction,
+        'paid'              => $paid,
         ]);
 
     return $expenseFraction;

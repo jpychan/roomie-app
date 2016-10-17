@@ -17,6 +17,6 @@ class ExpenseFraction extends Model
     }
 
   protected $fillable = [
-    'expense_id', 'borrower_id', 'amount_owed_cents'
+    'expense_id', 'borrower_id', 'amount_owed_cents', 'paid'
   ];
 }
