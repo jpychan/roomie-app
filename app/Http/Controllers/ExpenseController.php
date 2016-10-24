@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-
 use App\Group;
 use App\Expense;
 use App\expenseFraction;
@@ -20,7 +19,6 @@ class ExpenseController extends Controller
     $this->expenses = $expenses;
   }
 
-
   /**
    * Create a new expense.
    *
@@ -29,44 +27,56 @@ class ExpenseController extends Controller
    */
   public function create(Request $request)
   {
+
+    // eval(\Psy\sh());
+
     $this->validate($request, [
-        'name'        => 'required|max:255',
-        'total_cents' => 'required|integer',
-        'divide'      => 'required|boolean',
-        'group_id'    => 'required|integer'
+        'expenseName'   => 'required|max:255',
+        'totalCents'    => 'required|integer',
+        'groupId'      => 'required|integer'
     ]);
 
     $user_id = $request->user()->id;
     $expense = new Expense();
 
-    $expense->name = $request->name;
-    $expense->total_cents = $request->total_cents;
+    $expense->name = $request->expenseName;
+    $expense->total_cents = $request->totalCents;
     $expense->lender_id = $user_id;
     $expense->creator_id = $user_id;
-    $expense->group_id = $request->group_id;
+    $expense->group_id = $request->groupId;
 
     $expense->save();
 
-    $group = Group::find($request->group_id);
-
+    $group = Group::find($request->groupId);
     $users = $group->users;
-    $fraction = (int)($request->total_cents) / count($users);
 
-    foreach ($users as $user) {
-      $this->createExpenseFraction($expense->id, $user->id, $fraction, $user_id, false);
+    if ($request->divide == 1) {
+      $fraction = (int)($expense->total_cents) / count($users);
+
+      foreach ($users as $user) {
+        $this->createExpenseFraction($expense->id, $user->id, $fraction, false);
+      }
     }
-
+    else {
+      for ($i = 0; $i < count($request->userId); $i++ ) {
+        $this->createExpenseFraction($expense->id, $request->userId[$i], $request->fractionCents[$i], false);
+      }
+    }
     return redirect()->route('group', ['id' => $group->id]);
   }
 
   public function new(Group $group) {
+
+    $users = $group->users;
+
     return view('expenses.new', [
-      'group'     => $group
+      'group'     => $group,
+      'users'     => $users
       ]);
   }
 
   private function createExpenseFraction($expense_id, $user_id, $fraction, $paid) {
-    $expenseFraction = new expenseFraction;
+    $expenseFraction = new expenseFraction();
 
     $expenseFraction->create([
         'expense_id'        => $expense_id,
@@ -77,10 +87,4 @@ class ExpenseController extends Controller
 
     return $expenseFraction;
   }
-
-  // For a route with the following URI: profile/{id}
-
-
-
-
 }

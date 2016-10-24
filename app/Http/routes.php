@@ -26,7 +26,6 @@ Route::post('/expenses/create', 'ExpenseController@create');
 Route::post('/group', 'GroupController@store');
 Route::post('/group/{group}', 'GroupController@edit');
 Route::delete('/group/{group}', 'GroupController@destroy');
-// Route::get('/expenses/new', 'ExpenseController@new');
 Route::post('/expenses/create', 'ExpenseController@create');
 Route::post('/group/{group}/removeMember', 'GroupController@removeMember');
 Route::post('/group/{group}/addMember', 'GroupController@addMember');
