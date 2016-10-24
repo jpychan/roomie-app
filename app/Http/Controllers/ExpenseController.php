@@ -27,9 +27,6 @@ class ExpenseController extends Controller
    */
   public function create(Request $request)
   {
-
-    // eval(\Psy\sh());
-
     $this->validate($request, [
         'expenseName'   => 'required|max:255',
         'totalCents'    => 'required|integer',
@@ -40,7 +37,8 @@ class ExpenseController extends Controller
     $expense = new Expense();
 
     $expense->name = $request->expenseName;
-    $expense->total_cents = $request->totalCents;
+    $total_cents = (int)$request->totalCents * 100;
+    $expense->total_cents = $total_cents;
     $expense->lender_id = $user_id;
     $expense->creator_id = $user_id;
     $expense->group_id = $request->groupId;
@@ -51,7 +49,7 @@ class ExpenseController extends Controller
     $users = $group->users;
 
     if ($request->divide == 1) {
-      $fraction = (int)($expense->total_cents) / count($users);
+      $fraction = $total_cents / count($users);
 
       foreach ($users as $user) {
         $this->createExpenseFraction($expense->id, $user->id, $fraction, false);
@@ -59,7 +57,8 @@ class ExpenseController extends Controller
     }
     else {
       for ($i = 0; $i < count($request->userId); $i++ ) {
-        $this->createExpenseFraction($expense->id, $request->userId[$i], $request->fractionCents[$i], false);
+        $fraction_cents = (int)$request->fractionCents[$i] * 100;
+        $this->createExpenseFraction($expense->id, $request->userId[$i], $fraction_cents, $request->paid[$i]);
       }
     }
     return redirect()->route('group', ['id' => $group->id]);

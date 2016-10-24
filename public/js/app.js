@@ -47,10 +47,13 @@ $(function() {
 
     var breakdown = $('#expenseBreakdown');
 
+    var inputs = breakdown.find('input');
     if(!$('#divideCheckbox').is(":checked")) {
+      inputs.attr('required', true);
       breakdown.show();
     }
     else {
+      inputs.removeAttr('required');
       breakdown.hide();
     }
   });

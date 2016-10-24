@@ -12,7 +12,7 @@
       <input type="hidden" name="groupId" value="{{ $group->id }}">
       <label class="control-label col-md-2" for="expenseName">Expense Name</label>
       <div class="col-md-10">
-          <input type="text" class="form-control" id="expenseName" name="expenseName" placeholder="Expense Name">
+          <input type="text" class="form-control" id="expenseName" name="expenseName" placeholder="Expense Name" required>
       </div>
       @if ($errors->has('name'))
         <span class="help-block">
@@ -24,7 +24,7 @@
     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
       <label class="control-label col-md-2" for="totalCents">Total</label>
       <div class="col-md-10">
-        <input id="totalCents" type="number" class="form-control" name="totalCents" placeholder="Amount">
+        <input id="totalCents" type="number" class="form-control" name="totalCents" placeholder="Amount" required>
       </div>
       @if ($errors->has('total_cents'))
         <span class="help-block">
@@ -36,7 +36,7 @@
     <div class="form-group">
       <label class="control-label col-md-2" for="divideCheckbox">Divide Equally in Group?</label>
       <div class="col-md-10">
-        <input id="divideCheckbox" name="divide" type="checkbox" value="1" checked>
+        <input type="checkbox" id="divideCheckbox" name="divide" value="1" checked>
       </div>
     </div>
 
@@ -45,14 +45,23 @@
       <div class="col-md-10">
         @foreach ($users as $user)
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
               <p>{{ $user->first_name }} {{ $user->last_name}}</p>
               <input type="hidden" name="userId[]" value="{{ $user->id }}">
             </div>
-            <div class="col-md-4">
-              <input type="number" class="form-control" name="fractionCents[]">
+            <div class="col-md-3">
+              <input type="number" class="form-control" name="fractionCents[]" placeholder="Amount">
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
+              <label> Paid? </label>
+              <label class="checkbox-inline">
+                <input type="checkbox" name="paid[]" value="1"> Yes
+              </label>
+              <label class="checkbox-inline">
+                <input type="checkbox" name="paid[]" value="0"> No
+              </label>
+            </div>
+            <div class="col-md-3">
               <button class="btn btn-danger groupMemberRemoveBtn">
                 <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
               </button>
